@@ -12,10 +12,10 @@ mongoose.connect(
 ).then(()=>console.log("Database connected"))
 .catch((err) => {
     console.log(err);
-})
+})                                                          
 
 const corsOptions = {
-    origin: ['http://localhost:3000','http://localhost:5173',"https://user-manage-front-5ss81l7ot-joel-georges-projects.vercel.app", "https://user-management-2sdb.onrender.com" ],
+    origin: ['http://localhost:3000','http://localhost:5173',"https://user-manage-front-end-joel-georges-projects.vercel.app", "https://user-management-2sdb.onrender.com" ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
     credentials: true,
   };
