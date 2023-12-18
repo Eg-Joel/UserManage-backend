@@ -4,7 +4,6 @@ const AddUser = require("../models/addUser");
 exports.addUsers = async (req, res, next) => {
   try {
     const { username, email, phone } = req.body;
-    console.log(req.body);
     const newUser = new AddUser({ username, email, phone });
     await newUser.save();
     res.status(201).json("user created successsfully");
@@ -17,18 +16,22 @@ exports.getUser = async (req, res, next) => {
   try {
 
     const { filter } = req.query
+    const collationOptions = { locale: 'en', caseLevel: true };
 
      let users;
     if (filter === "lastModified") {
-      users = await AddUser.find().sort({ updatedAt: -1 });
-    } else if (filter === "lastInserted") {
+      users = await AddUser.find().sort({updatedAt : -1 });
+     } else if (filter === "lastInserted") {
       users = await AddUser.find().sort({ createdAt: -1 });
-    } else {
-
+    }else if (filter === "asc") {
+      users = await AddUser.find().collation(collationOptions).sort({ username: 1 })
+    } else if (filter === "desc") {
+      users = await AddUser.find().collation(collationOptions).sort({ username: -1 })
+    }  
+     else {
       users = await AddUser.find();
     }
 
-     
     res.status(200).json({ users });
   } catch (error) {
     next(error);
@@ -68,9 +71,7 @@ const updateUser = await user.save()
 
 exports.searchUser = async (req, res, next) => {
   try {
-    
     const { value } = req.params; 
-  
     const users = await AddUser.find({
       $or: [
         { username: { $regex: value,$options: "i" }},

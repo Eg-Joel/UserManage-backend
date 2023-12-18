@@ -6,7 +6,7 @@ const addUserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true},
     phone: {type: Number, required: true, unique: true},
   },
-   {timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  {timestamps: true}
 );
 
 module.exports = mongoose.model("AddUser", addUserSchema);
